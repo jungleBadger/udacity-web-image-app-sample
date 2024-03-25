@@ -11,24 +11,25 @@ jest.mock('fs', () => ({
 }));
 
 const expectedBadRequest = JSON.stringify({
-  "status": 400,
-  "message": 'File name is required.'
+  status: 400,
+  message: 'File name is required.',
 });
 
 const expectedNotFound = JSON.stringify({
-  "status": 404,
-  "message": 'File does not exist.'
+  status: 404,
+  message: 'File does not exist.',
 });
 
 describe('getRawImage', () => {
-
   it('throws an error when the fileName is not provided', () => {
     expect(() => getImage.getRawImage('')).toThrow(expectedBadRequest);
   });
 
   it('throws an error when the file does not exist', () => {
     (fs.existsSync as jest.Mock).mockReturnValue(false);
-    expect(() => getImage.getRawImage('nonexistent.jpg')).toThrow(expectedNotFound);
+    expect(() => getImage.getRawImage('nonexistent.jpg')).toThrow(
+      expectedNotFound,
+    );
   });
 
   it('returns a stream when the file exists', () => {
@@ -43,12 +44,14 @@ describe('getRawImage', () => {
 
 describe('getProcessedImage', () => {
   it('should throw an error if filename is not provided', () => {
-    expect(() => getImage.getProcessedImage('')).toThrow(expectedBadRequest );
+    expect(() => getImage.getProcessedImage('')).toThrow(expectedBadRequest);
   });
 
   it('should throw an error if processed image does not exist', () => {
     (fs.existsSync as jest.Mock).mockReturnValueOnce(false);
-    expect(() => getImage.getProcessedImage('nonexistent.jpg')).toThrow(expectedNotFound);
+    expect(() => getImage.getProcessedImage('nonexistent.jpg')).toThrow(
+      expectedNotFound,
+    );
   });
 
   it('should return a read stream for an existing processed image', () => {

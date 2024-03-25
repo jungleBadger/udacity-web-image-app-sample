@@ -1,1 +1,1 @@
-console.log("exit");
+console.log('exit');

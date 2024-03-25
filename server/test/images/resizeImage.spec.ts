@@ -40,12 +40,12 @@ describe('resizeImage', () => {
 
     // Test for negative width
     await expect(
-        resizeImage(mockImagePath, negativeWidth, mockHeight)
+      resizeImage(mockImagePath, negativeWidth, mockHeight),
     ).rejects.toThrow('Width and height must be positive numbers.');
 
     // Test for negative height
     await expect(
-        resizeImage(mockImagePath, mockWidth, negativeHeight)
+      resizeImage(mockImagePath, mockWidth, negativeHeight),
     ).rejects.toThrow('Width and height must be positive numbers.');
   });
 
@@ -73,7 +73,9 @@ describe('resizeImage', () => {
     expect(sharp).toHaveBeenCalledWith(expect.stringContaining(mockImagePath));
     expect(resizedImage).toHaveProperty(
       'fileName',
-      expect.stringContaining(`${mockImagePath.split('.jpg')[0]}-${mockWidth}x${mockHeight}.jpg`),
+      expect.stringContaining(
+        `${mockImagePath.split('.jpg')[0]}-${mockWidth}x${mockHeight}.jpg`,
+      ),
     );
   });
 

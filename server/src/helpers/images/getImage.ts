@@ -11,19 +11,23 @@ import path from 'path';
  */
 function validateAndGetPath(fileName: string, directory: string): string {
   if (!fileName) {
-    throw new Error(JSON.stringify({
-      "status": 400,
-      "message": "File name is required."
-    }));
+    throw new Error(
+      JSON.stringify({
+        status: 400,
+        message: 'File name is required.',
+      }),
+    );
   }
 
   const filePath = path.join(__dirname, directory, fileName);
 
   if (!fs.existsSync(filePath)) {
-    throw new Error(JSON.stringify({
-      "status": 404,
-      "message": "File does not exist."
-    }));
+    throw new Error(
+      JSON.stringify({
+        status: 404,
+        message: 'File does not exist.',
+      }),
+    );
   }
 
   return filePath;

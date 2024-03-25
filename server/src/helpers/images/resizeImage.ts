@@ -21,9 +21,7 @@ export async function resizeImage(
       'Missing parameters: fileName, width, and height are required.',
     );
   } else if (width <= 0 || height <= 0) {
-    throw new Error(
-        'Width and height must be positive numbers.',
-    );
+    throw new Error('Width and height must be positive numbers.');
   }
 
   // Construct file paths
@@ -36,7 +34,7 @@ export async function resizeImage(
   const processedImagePath = path.join(
     __dirname,
     '../../../../assets/images/processed',
-      processedFileName,
+    processedFileName,
   );
 
   // Check if file exists

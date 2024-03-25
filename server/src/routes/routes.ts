@@ -10,9 +10,7 @@ router.use('/images', [
   listImagesHandler,
   uploadImageHandler,
   resizeImageHandler,
-  getImageHandler
+  getImageHandler,
 ]);
-
-
 
 export default router;
