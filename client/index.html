@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image App</title>
+    <style>
+        #imageList {
+            list-style: none;
+            padding: 0;
+        }
+        #imageList li {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        #imageList li.selected {
+            background-color: #e0e0e0;
+        }
+        #imageList img {
+            margin-right: 10px;
+            width: 50px; /* Thumbnail size */
+            height: 50px; /* Thumbnail size */
+            object-fit: cover;
+        }
+        #selectedImageDisplay {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+<h1>Image Upload and Resize</h1>
+
+<section>
+    <h2>Upload Image</h2>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/jpeg" required />
+        <button type="submit">Upload Image</button>
+    </form>
+</section>
+
+<section>
+    <h2>Available Raw Images</h2>
+    <ul id="imageList"></ul>
+</section>
+
+<section>
+    <h2>Resize Image</h2>
+    <div id="selectedImageDisplay">No image selected</div>
+    <label for="width">Width:</label>
+    <input type="number" id="width" required>
+    <label for="height">Height:</label>
+    <input type="number" id="height" required>
+    <input type="hidden" id="selectedImageName" />
+    <button id="resizeBtn" disabled>Resize Image</button>
+</section>
+
+<script>
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        fetch('/images/upload', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                fetchRawImages(); // Refresh the list of images after upload
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    });
+
+    function fetchRawImages() {
+        fetch('/images/')
+            .then(response => response.json())
+            .then(images => {
+                const imageList = document.getElementById('imageList');
+                imageList.innerHTML = ''; // Clear the list
+                images.forEach(image => {
+                    const li = document.createElement('li');
+                    const img = document.createElement('img');
+                    img.src = `/images/fetch/raw?fileName=${image.fileName}`;
+                    img.alt = image.fileName;
+                    li.appendChild(img);
+
+                    const text = document.createTextNode(image.fileName);
+                    li.appendChild(text);
+
+                    li.onclick = () => selectImage(image.fileName, li);
+                    imageList.appendChild(li);
+                });
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
+    function selectImage(imageName, listItemElement) {
+        // Remove 'selected' class from all list items
+        document.querySelectorAll('#imageList li').forEach(li => {
+            li.classList.remove('selected');
+        });
+
+        // Add 'selected' class to the current list item
+        listItemElement.classList.add('selected');
+
+        // Display selected image file name
+        document.getElementById('selectedImageDisplay').textContent = `Selected image: ${imageName}`;
+
+        // Store the selected image name and enable the resize button
+        document.getElementById('selectedImageName').value = imageName;
+        document.getElementById('resizeBtn').removeAttribute('disabled');
+    }
+
+    document.getElementById('resizeBtn').addEventListener('click', function() {
+        const imageName = document.getElementById('selectedImageName').value;
+        const width = document.getElementById('width').value;
+        const height = document.getElementById('height').value;
+        fetch(`/images/resize?fileName=${imageName}&width=${width}&height=${height}`, {
+            method: 'POST' // Assuming the resize endpoint uses a POST method
+        })
+            .then(response => response.json())
+            .then(data => {
+                window.open(`/images/fetch/processed?fileName=${data.fileName}`, '_blank'); // Open resized image
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    });
+
+    window.onload = fetchRawImages;
+</script>
+</body>
+</html>
