@@ -30,6 +30,16 @@ npm run dev
 
 The server runs on port `3000` and exposes the following endpoints:
 
+#### HTML/JS Client application
+
+- **GET** `/` - Access the frontend application.
+
+
+ 
+  Direct link: http://localhost:3000/
+
+
+
 #### Upload Image
 
 - **POST** `/api/images/upload` - Uploads an image to the server.
