@@ -53,6 +53,7 @@
     <input type="number" id="height" required>
     <input type="hidden" id="selectedImageName" />
     <button id="resizeBtn" disabled>Resize Image</button>
+    <label id="resized-url"></label>
 </section>
 
 <script>
@@ -123,7 +124,7 @@
         })
             .then(response => response.json())
             .then(data => {
-                window.open(`/images/fetch/processed?fileName=${data.fileName}`, '_blank'); // Open resized image
+                document.getElementById('resized-url').innerHTML = `Click to open: <a target="_blank" href="/images/fetch/processed?fileName=${data.fileName}">/images/fetch/processed?fileName=${data.fileName}</a>` ;
             })
             .catch(err => {
                 console.error(err);
