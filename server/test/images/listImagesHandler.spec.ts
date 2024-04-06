@@ -1,6 +1,6 @@
 // @ts-ignore
 import request from 'supertest';
-import server from '../../src/app';
+import { server } from '../../src/app';
 import { promises as fsPromises } from 'fs';
 
 afterAll((done) => {

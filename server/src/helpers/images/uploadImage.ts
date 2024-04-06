@@ -20,7 +20,10 @@ const fileFilter = (
   file: Express.Multer.File,
   cb: multer.FileFilterCallback,
 ) => {
-  if (path.extname(file.originalname).toLowerCase() === '.jpg') {
+  if (
+    path.extname(file.originalname).toLowerCase() === '.jpeg' ||
+    path.extname(file.originalname).toLowerCase() === '.jpg'
+  ) {
     cb(null, true);
   } else {
     cb(null, false); // Reject the file

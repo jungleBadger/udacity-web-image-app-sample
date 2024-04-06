@@ -1,6 +1,6 @@
 // @ts-ignore
 import request from 'supertest';
-import server from '../../src/app';
+import { server } from '../../src/app';
 import * as getImageHelpers from '../../src/helpers/images/getImage';
 
 // Mock the helper functions

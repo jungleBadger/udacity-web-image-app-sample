@@ -36,7 +36,8 @@ router.post('/resize', async (req: Request, res: Response) => {
 
     // Respond with the path of the resized image
     res.status(200).json(resizedImagePath);
-  } catch (error: unknown) {
+    //@ts-ignore
+  } catch (error: Error) {
     res.status(500).json({ error: 'Resize error' });
   }
 });

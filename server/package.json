@@ -7,10 +7,11 @@
     "test": "test"
   },
   "scripts": {
-    "start": "cross-env APP_PORT=3000 NODE_ENV=production node dist/app.js",
+    "start": "npm run build && cross-env APP_PORT=3000 NODE_ENV=production node dist/app.js",
     "dev": "cross-env APP_PORT=3000 NODE_ENV=development ts-node src/app.ts",
     "build": "tsc",
-    "test": "jest --coverage",
+    "test": "npm run build && npx jasmine",
+    "test-jest": "jest --coverage",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier --write \"**/*.{js,ts,json}\""

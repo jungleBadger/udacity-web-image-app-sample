@@ -7,7 +7,8 @@ router.get('/', async (req: Request, res: Response) => {
   try {
     const images = await listImages();
     res.json(images);
-  } catch (error) {
+    //@ts-ignore
+  } catch (error: Error) {
     res.status(500).send('Failed to list images');
   }
 });

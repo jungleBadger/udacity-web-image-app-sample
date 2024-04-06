@@ -4,7 +4,7 @@ import request from 'supertest';
 import path from 'path';
 // @ts-ignore
 import fs from 'fs';
-import server from '../../src/app';
+import { server } from '../../src/app';
 
 afterAll((done) => {
   server.close(done);

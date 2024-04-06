@@ -1,6 +1,6 @@
 // @ts-ignore
 import request from 'supertest';
-import app from '../../src/app'; // Import the configured Express app
+import { app } from '../../src/app';
 import * as resizeImageHelper from '../../src/helpers/images/resizeImage';
 
 // Mock the resizeImage function from the helper

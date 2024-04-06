@@ -37,7 +37,8 @@ router.get('/fetch/:imageType', (req: Request, res: Response) => {
 
     // Pipe the stream directly to the response
     imageStream.pipe(res);
-  } catch (error: any) {
+    //@ts-ignore
+  } catch (error: Error) {
     const parsedError = JSON.parse(error.message || '{}');
     res
       .status(parsedError.status || 500)

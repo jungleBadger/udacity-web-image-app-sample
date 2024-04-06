@@ -35,60 +35,60 @@ The server runs on port `3000` and exposes the following endpoints:
 - **GET** `/` - Access the frontend application.
 
 
- 
-  Direct link: http://localhost:3000/
-
+  [Direct link](http://localhost:3000/)
 
 
 #### Upload Image
 
-- **POST** `/api/images/upload` - Uploads an image to the server.
+- **POST** `/images/upload` - Uploads an image to the server.
 
   Sample usage:
 
   ```bash
-  curl -X POST -F "image=@path_to_image.jpg" http://localhost:3000/api/images/upload
+  curl --location 'http://localhost:3000/images/upload' \
+  --form 'image=@"file_location.jpg"'
   ```
 
 #### List Images
 
-- **GET** `/api/images/list` - Lists all uploaded images.
+- **GET** `/images/list` - Lists all uploaded images.
 
   Sample usage:
 
   ```bash
-  curl http://localhost:3000/api/images/list
+  curl http://localhost:3000/images/
   ```
 
 #### Get Raw Image
 
-- **GET** `/api/images/fetch/raw?fileName={fileName}` - Retrieves the original image.
+- **GET** `/images/fetch/raw?fileName={fileName}` - Retrieves the original image.
 
   Sample usage:
 
   ```bash
-  curl http://localhost:3000/api/images/fetch/raw?fileName=sample.jpg
-  ```
-
-#### Get Processed Image
-
-- **GET** `/api/images/fetch/processed/?fileName={fileName}` - Retrieves the processed image.
-
-  Sample usage:
-
-  ```bash
-  curl http://localhost:3000/api/images/fetch/processed?fileName=sample-100x100.jpg
+  curl http://localhost:3000/images/fetch/raw?fileName=fjord.jpg
   ```
 
 #### Resize Image
 
-- **POST** `/api/images/resize` - Resizes an image and returns the new image path.
+- **POST** `/images/resize?fileName=fjord.jpg&width=100&height=100` - Resizes an image and returns the new image path.
 
   Sample usage:
 
   ```bash
-  curl -X POST http://localhost:3000/api/images/resize?filePath=sample.jpg&width=100&height=100
+  curl --location --request POST http://localhost:3000/images/resize?fileName=fjord.jpg&width=100&height=1001
   ```
+
+#### Get Processed Image
+
+- **GET** `/images/fetch/processed?fileName={fileName}` - Retrieves the processed image.
+
+  Sample usage:
+
+  ```bash
+  curl http://localhost:3000/images/fetch/processed?fileName=fjord-100x100.jpg
+  ```
+
 
 ## Development and Testing
 
@@ -109,9 +109,14 @@ To ensure code quality, linting and formatting scripts are provided, as well as 
   npm run format
   ```
 
-- Run tests with coverage report:
+- Run tests with jasmine framework:
   ```bash
   npm test
+  ```
+
+- Run tests with jest and coverage report:
+  ```bash
+  npm run test-jest
   ```
 
 ## Contributing
