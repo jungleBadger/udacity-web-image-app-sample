@@ -34,7 +34,7 @@
 <section>
     <h2>Upload Image</h2>
     <form id="uploadForm" enctype="multipart/form-data">
-        <input type="file" name="image" accept="image/jpg" required />
+        <input type="file" name="image" accept="image/jpeg" required />
         <button type="submit">Upload Image</button>
     </form>
 </section>
@@ -66,10 +66,16 @@
         })
             .then(response => response.json())
             .then(data => {
-                fetchRawImages(); // Refresh the list of images after upload
+                if (data && data.error) {
+                    alert(`Error uploading file: ${data.error || 'unknown error'}`);
+                } else {
+                    fetchRawImages(); // Refresh the list of images after upload
+                }
+
             })
             .catch(err => {
                 console.error(err);
+                alert('Invalid file type');
             });
     });
 
@@ -124,9 +130,14 @@
         })
             .then(response => response.json())
             .then(data => {
-                document.getElementById('resized-url').innerHTML = `Click to open: <a target="_blank" href="/images/fetch/processed?fileName=${data.fileName}">/images/fetch/processed?fileName=${data.fileName}</a>` ;
+                if (data && data.error) {
+                    document.getElementById('resized-url').innerHTML = `Error processing image: ${data.error}` ;
+                } else {
+                    document.getElementById('resized-url').innerHTML = `Click to open: <a target="_blank" href="/images/fetch/processed?fileName=${data.fileName}">/images/fetch/processed?fileName=${data.fileName}</a>`;
+                }
             })
             .catch(err => {
+                document.getElementById('resized-url').innerHTML = `Error processing image: ${err.message || err}` ;
                 console.error(err);
             });
     });
